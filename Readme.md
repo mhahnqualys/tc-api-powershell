@@ -16,7 +16,8 @@ file.
 
 - https://docs.qualys.com/en/tc/api/get_started/get_started.htm
 - https://docs.qualys.com/en/tc/api/control/get_control_metadata.htm
-
+- https://docs.qualys.com/en/tc/api/get_started/get_started.htm
+- https://docs.qualys.com
 
 # Usage
 
