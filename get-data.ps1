@@ -26,7 +26,7 @@ function Main {
 
     # Create Basic Authentication header
     $authBytes = [System.Text.Encoding]::UTF8.GetBytes("$qUser`:$qPass")
-    $basicAuthToken = :ToBase64String($authBytes)
+    $basicAuthToken =[System.Convert]::ToBase64String($authBytes)
 
     $headers = @{
         "X-Requested-With" = "powershell"
