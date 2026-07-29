@@ -9,7 +9,7 @@ See the `LICENSE` file.
 
 This demonstrations how PowerShell can call the Qualys TotalCloud
 API to extract control information, including remediation steps, 
-and write this to a [CSV]{https://en.wikipedia.org/wiki/Comma-separated_values} 
+and write this to a [CSV](https://en.wikipedia.org/wiki/Comma-separated_values)
 file.
 
 ## References:
