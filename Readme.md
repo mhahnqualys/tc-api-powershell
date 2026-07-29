@@ -3,7 +3,7 @@
 Example of calling Qualys TotalCloud APIs in Powershell
 
 This software and explanation is provided AS-IS with no warranty.
-See the `LICENSE` file.
+See the [`LICENSE`](LICENSE) file.
 
 ## Explanation
 
