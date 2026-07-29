@@ -33,28 +33,61 @@ function Main {
         "Authorization"    = "Basic $basicAuthToken"
     }
 
-    $qReq = "$qPlat/cloudview-api/rest/v1/controls/metadata/list?filter=provider%3AAWS&pageNo=0&pageSize=2"
+    $qURL = "$qPlat/cloudview-api/rest/v1/controls/metadata/list?filter=provider%3AAWS&pageNo=0&pageSize=2"
+    $qURL = "$qPlat/cloudview-api/rest/v1/controls/metadata/list?filter=provider%3AAWS%20and%20service.type:ACM"
+    $qURL = "$qPlat/cloudview-api/rest/v1/controls/metadata/list?filter=provider%3AAWS"
+	
+	$reqPageNum = 0
+	$reqPageSize = 200
+	$paging = "&pageNo=$reqPageNum&pageSize=$reqPageSize"
+	
+    $qURLpaged = "$qURL$paging"
+	
+	$controlList = @()
 
-    Write-Host $qReq
+    $moreData = $true
 
-    try {
-        $response = Invoke-RestMethod -Uri $qReq -Headers $headers -Method Get
-    }
-    catch {
-        throw "Error in API call URL: $qReq`n$($_.Exception.Message)"
-    }
+    while ($moreData) {
 
-    $controlList = @()
+        Write-Host $qURLpaged 
 
-    foreach ($c in $response.control) {
-        $c | ConvertTo-Json -Depth 10 | Write-Host
-
-        $controlData = [PSCustomObject]@{
-            cid         = $c.cid
-            remediation = $c.manualRemediation
+        try {
+           $response = Invoke-RestMethod -Uri $qURLpaged -Headers $headers -Method Get
+        }
+        catch {
+            throw "Error in API call URL: $qURLpaged`n$($_.Exception.Message)"
         }
 
-        $controlList += $controlData
+        foreach ($c in $response.control) {
+            #$c | ConvertTo-Json -Depth 10 | Write-Host
+
+            $controlData = [PSCustomObject]@{
+                cid         = $c.cid
+				name        = $c.controlName
+                remediation = $c.manualRemediation
+            }
+
+			Write-Host $c.cid, $c.controlName
+
+            $controlList += $controlData
+        }
+
+		$nextURL = $response.warning.url
+		
+        Write-Host $nextURL
+		
+		if ([string]::IsNullOrEmpty($nextURL)) {
+			Write-Host "The string is null or empty."
+			$moreData = $false
+		} else {
+			$reqPageNum = $reqPageNum + 1
+			
+			$paging = "&pageNo=$reqPageNum&pageSize=$reqPageSize"
+	        $qURLpaged = "$qURL$paging"
+	
+			$moreData = $true
+		}
+
     }
 
     Write-CsvData -Subject "controls" -CsvData $controlList -Today $currDateTime | Out-Null
