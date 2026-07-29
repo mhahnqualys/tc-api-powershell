@@ -1,6 +1,6 @@
 # Overview 
 
-Example of calling TC APIs in Powershell
+Example of calling Qualys TotalCloud APIs in Powershell
 
 This software and explanation is provided AS-IS with no warranty.
 See the `LICENSE` file.
