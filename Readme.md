@@ -29,6 +29,9 @@ $env:Q_PASSWORD="abc124"
 $env:Q_PLAT="https://qualysguard.qg3.apps.qualys.com"
 ```
 
+Note: the `Q_PLAT` environment variable is found the Platform URL column in the first
+table on the Qualys platform identification page: https://www.qualys.com/platform-identification
+
 ## Step 2. Run the PowerShell script.
 
 ```
